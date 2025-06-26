@@ -1,4 +1,4 @@
-const playSound = (type) => {
+export const playSound = (type) => {
   const audioMap = {
     move: new Audio("/sounds/click.mp3"),
     win: new Audio("/sounds/win.mp3"),
@@ -6,5 +6,3 @@ const playSound = (type) => {
 
   audioMap[type]?.play();
 };
-
-export default playSound;
