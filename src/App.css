@@ -1,4 +1,4 @@
-#root {
+/* #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
@@ -39,4 +39,14 @@
 
 .read-the-docs {
   color: #888;
+} */
+
+@keyframes scaleIn {
+  0% { transform: scale(0.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
 }
+
+.animate-scaleIn {
+  animation: scaleIn 0.3s ease-out;
+}
+

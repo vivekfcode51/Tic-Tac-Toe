@@ -11,14 +11,14 @@ const PlayerMode = ({ isBotEnabled, setIsBotEnabled, initGame, wins, gameInfo })
   };
 
   return (
-    <div className="relative w-full max-w-5xl px-4 mb-8">
+    <div className="relative w-full max-w-5xl px-4 mb-2">
       {/* 🟩 Top Section */}
       <div className="flex justify-between items-center text-white w-full gap-x-4">
         {/* 🔹 Player 1 */}
         <div className="flex flex-col items-center gap-2">
           <img src={logo} alt="Player 1" width={60} />
           <span className="font-semibold text-lg">Player 1</span>
-          <span className="text-sm text-white/70">Wins: {wins.player1}</span>
+          <span className="text-sm text-[#00f2fe]">Wins: {wins.player1}</span>
         </div>
 
         {/* 🟨 Game Info (center) */}
@@ -32,7 +32,7 @@ const PlayerMode = ({ isBotEnabled, setIsBotEnabled, initGame, wins, gameInfo })
         <div className="flex flex-col items-center gap-2">
           <img src={isBotEnabled ? botLogo : logo2} alt="Player 2" width={60} />
           <span className="font-semibold text-lg">{isBotEnabled ? "Bot" : "Player 2"}</span>
-          <span className="text-sm text-white/70">Wins: {wins.player2}</span>
+          <span className="text-sm text-[#00f2fe]">Wins: {wins.player2}</span>
         </div>
       </div>
 
