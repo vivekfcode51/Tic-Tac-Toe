@@ -22,7 +22,7 @@ const LevelSelect = ({ onSelect }) => {
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-black">
       <div className="text-center">
-        <h1 className="text-5xl pb-9 font-bold mb-6 bg-gradient-to-br from-purple-600 to-blue-500 bg-clip-text text-transparent">
+        <h1 className="text-5xl pb-9 font-bold mb-6 bg-gradient-to-br from-[#E040FB] to-[#18FFFF] bg-clip-text text-transparent">
           Select Level
         </h1>
 
