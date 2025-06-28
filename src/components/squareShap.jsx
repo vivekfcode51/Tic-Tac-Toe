@@ -85,34 +85,45 @@ const GameBoard = ({ selectedLevel }) => {
   };
 
   const checkGameOver = (grid) => {
+    // for (let position of winningPositions) {
+    //   const [a, b, c] = position;
+    //   if (grid[a] && grid[a] === grid[b] && grid[b] === grid[c]) {
+    //     setWinner(grid[a]);
+    //     setGameInfo(`Winner Player - ${grid[a]}`);
+    //     setShowModal(true);
+    //     playSound("win");
+
+    //     if (grid[a] === "X") {
+    //       setPlayer1Wins((prev) => prev + 1);
+    //     } else if (grid[a] === "O") {
+    //       setPlayer2Wins((prev) => prev + 1);
+    //     }
+    //     return;
+    //   }
+    // }
     for (let position of winningPositions) {
       if (
         position.every(
           (index) => grid[index] && grid[index] === grid[position[0]]
         )
       ) {
-        const winnerPlayer = grid[position[0]];
-        setWinner(winnerPlayer); // ✅ sets state
-        setGameInfo(`Winner Player - ${winnerPlayer}`);
+        setWinner(grid[position[0]]);
+        setGameInfo(`Winner Player - ${grid[position[0]]}`);
         setShowModal(true);
-        playSound("win");
+        playSound("win", isSoundOn);
 
-        // ✅ Immediately update score based on winnerPlayer (not `winner`)
-        if (winnerPlayer === "X") {
-          console.log("Player 1 wins");
+        if (grid[position[0]] === "X") {
           setPlayer1Wins((prev) => prev + 1);
-        } else if (winnerPlayer === "O") {
-          console.log("Player 2 wins");
+        } else {
           setPlayer2Wins((prev) => prev + 1);
         }
-
         return;
       }
     }
 
     if (grid.every((cell) => cell)) {
       setWinner("tie");
-      setGameInfo("Game Tied !!");
+      setGameInfo("Game Tied !");
       setShowModal(true);
       playSound("tie");
     } else {
@@ -176,53 +187,49 @@ const GameBoard = ({ selectedLevel }) => {
       />
 
       <div className={`relative w-full ${maxBoardWidth} aspect-square`}>
-      {/* Grid Lines (Optional, can be removed if using box borders) */}
-      {[...Array(gridSize - 1)].map((_, i) => (
-        <React.Fragment key={i}>
-          <div
-            className="absolute left-0 w-full border-t-4 border-white pointer-events-none"
-            style={{ top: `${((i + 1) / gridSize) * 100}%` }}
-          ></div>
-          <div
-            className="absolute top-0 h-full border-l-4 border-white pointer-events-none"
-            style={{ left: `${((i + 1) / gridSize) * 100}%` }}
-          ></div>
-        </React.Fragment>
-      ))}
-
-      {/* Grid Boxes with border and gap */}
-      <div className={`grid w-full h-full gap-[4px] ${gridColsClass}`}>
-        {gameGrid.map((value, index) => (
-          <div
-            key={index}
-            onClick={() => handleClick(index)}
-            className={`relative cursor-pointer flex items-center justify-center 
-              rounded-md bg-black/20 transition duration-200
-              ${
-                winner &&
-                winningPositions.some(
-                  (combo) =>
-                    combo.includes(index) &&
-                    combo.every((i) => gameGrid[i] === gameGrid[index])
-                )
-                  ? "bg-green-400/30"
-                  : ""
-              }`}
-          >
-            <div className="absolute inset-0 flex items-center justify-center">
-              {value && (
-                <img
-                  src={value === "X" ? Xicon : Oicon}
-                  alt={value}
-                  className="h-[65%] w-[65%] object-contain object-center z-20 animate-scaleIn"
-                />
-              )}
-            </div>
-          </div>
+        {[...Array(gridSize - 1)].map((_, i) => (
+          <React.Fragment key={i}>
+            <div
+              className="absolute left-0 w-full border-t-4 border-white pointer-events-none"
+              style={{ top: `${((i + 1) / gridSize) * 100}%` }}
+            ></div>
+            <div
+              className="absolute top-0 h-full border-l-4 border-white pointer-events-none"
+              style={{ left: `${((i + 1) / gridSize) * 100}%` }}
+            ></div>
+          </React.Fragment>
         ))}
-      </div>
-    </div>
 
+        <div className={`grid w-full h-full ${gridColsClass}`}>
+          {gameGrid.map((value, index) => (
+            <div
+              key={index}
+              onClick={() => handleClick(index)}
+              className={`relative cursor-pointer flex items-center justify-center group overflow-hidden transition duration-200
+                ${
+                  winner &&
+                  winningPositions.some(
+                    (combo) =>
+                      combo.includes(index) &&
+                      combo.every((i) => gameGrid[i] === gameGrid[index])
+                  )
+                    ? "bg-green-400/30"
+                    : ""
+                }`}
+            >
+              <div className="absolute inset-0 flex items-center justify-center">
+                {value && (
+                  <img
+                    src={value === "X" ? Xicon : Oicon}
+                    alt={value}
+                    className="h-[65%] w-[65%] object-contain object-center z-20 animate-scaleIn"
+                  />
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* Bottom Buttons Row */}
       <div className="w-full flex justify-between items-center mt-6 px-4 gap-4 flex-wrap">
@@ -305,6 +312,8 @@ const GameBoard = ({ selectedLevel }) => {
         </div>
       )}
     </div>
+
+
   );
 };
 
