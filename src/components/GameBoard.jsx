@@ -165,7 +165,7 @@ const GameBoard = ({ selectedLevel }) => {
       : "grid-cols-3";
 
   return (
-    <div className="min-h-screen flex flex-col justify-between items-center bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] px-4 pt-6 pb-4 relative">
+    <div className="min-h-screen max-h-screen overflow-y-auto flex flex-col items-center bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] px-4 pt-4 pb-2">
       <h1 className="bg-gradient-to-br from-[#667eea] to-[#00f2fe] bg-clip-text text-transparent font-bold text-4xl sm:text-5xl mb-6 text-center">
         TIC-TAC-TOE
       </h1>
@@ -227,7 +227,7 @@ const GameBoard = ({ selectedLevel }) => {
       </div>
 
       {/* Bottom Buttons Row */}
-      <div className="w-full px-4 mt-6 flex flex-col gap-4">
+      <div className="w-full px-4 mt-4 flex flex-col gap-3">
         {/* Top Row: Left and Right Aligned Toggles */}
         <div className="w-full flex justify-between items-start">
           {/* Sound Toggle - Left Aligned */}
@@ -271,7 +271,7 @@ const GameBoard = ({ selectedLevel }) => {
         </div>
 
         {/* Bottom Row: Clear Score Button - Centered */}
-        <div className="w-full flex justify-center">
+        <div className="w-full flex justify-center mb-4">
           <button
             onClick={clearScore}
             className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/40 text-sm font-medium bg-white/10
