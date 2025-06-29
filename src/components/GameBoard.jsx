@@ -227,56 +227,59 @@ const GameBoard = ({ selectedLevel }) => {
       </div>
 
       {/* Bottom Buttons Row */}
-      <div className="w-full flex justify-between items-center mt-6 px-4 gap-4 flex-wrap">
-        {/* Left Buttons: Clear Score & Sound Toggle */}
-        <div className="flex gap-3 items-center">
-          {/* Clear Score */}
-          <div className="relative group">
-            <button
-              onClick={clearScore}
-              className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/40 text-sm font-medium bg-white/10
-              hover:bg-white/20 text-white transition-all backdrop-blur-sm hover:text-[#00f2fe]"
-            >
-              <MdDelete className="text-lg" />
-              Clear Score
-            </button>
-            <span className="absolute -top-6 right-0 text-xs text-white/70 opacity-0 group-hover:opacity-100 transition">
-              Resets win counters
-            </span>
+      <div className="w-full px-4 mt-6 flex flex-col gap-4">
+        {/* Top Row: Left and Right Aligned Toggles */}
+        <div className="w-full flex justify-between items-start">
+          {/* Sound Toggle - Left Aligned */}
+          <div className="flex flex-col items-start gap-1">
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-white font-semibold">Sound</span>
+              <button
+                onClick={() => setIsSoundOn((prev) => !prev)}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 ${
+                  isSoundOn ? "bg-green-500" : "bg-gray-500"
+                }`}
+              >
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ${
+                    isSoundOn ? "translate-x-6" : "translate-x-1"
+                  }`}
+                />
+              </button>
+            </div>
           </div>
 
-          {/* Sound Toggle */}
-          <div className="relative group">
-            <button
-              onClick={() => setIsSoundOn((prev) => !prev)}
-              className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/40 text-sm font-medium bg-white/10
-              hover:bg-white/20 text-white transition-all backdrop-blur-sm hover:text-[#00f2fe]"
-            >
-              {isSoundOn ? <HiSpeakerWave /> : <HiSpeakerXMark />}
-              {isSoundOn ? "Sound On" : "Sound Off"}
-            </button>
-            <span className="absolute -top-6 right-0 text-xs text-white/70 opacity-0 group-hover:opacity-100 transition">
-              Toggle Sound
-            </span>
+          {/* Bot Toggle - Right Aligned */}
+          <div className="flex flex-col items-end gap-1">
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-white font-semibold"> Player vs Bot</span>
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={isBotEnabled}
+                  onChange={() => {
+                    setIsBotEnabled((prev) => !prev);
+                    initGame();
+                  }}
+                  className="sr-only peer"
+                />
+                <div className="w-11 h-6 bg-gray-500 peer-focus:outline-none rounded-full peer peer-checked:bg-[#00f2fe] transition-all"></div>
+                <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform peer-checked:translate-x-5"></div>
+              </label>
+            </div>
           </div>
         </div>
 
-        {/* Right Button: Toggle Game Mode */}
-        <div className="relative group">
+        {/* Bottom Row: Clear Score Button - Centered */}
+        <div className="w-full flex justify-center">
           <button
-            onClick={() => {
-              setIsBotEnabled((prev) => !prev);
-              initGame();
-            }}
+            onClick={clearScore}
             className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/40 text-sm font-medium bg-white/10
-            hover:bg-white/20 text-white transition-all backdrop-blur-sm hover:text-[#00f2fe]"
+        hover:bg-white/20 text-white transition-all backdrop-blur-sm hover:text-[#00f2fe]"
           >
-            {isBotEnabled ? <FaRobot /> : <FaUserFriends />}
-            {isBotEnabled ? "Player vs Bot" : "Player vs Player"}
+            <MdDelete className="text-sm font-semibold" />
+            Clear Score
           </button>
-          <span className="absolute -top-6 right-0 text-xs text-white/70 opacity-0 group-hover:opacity-100 transition">
-            Toggle Game Mode
-          </span>
         </div>
       </div>
 
