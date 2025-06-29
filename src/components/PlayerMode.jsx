@@ -3,52 +3,84 @@ import { FaUserFriends, FaRobot } from "react-icons/fa";
 import logo from "../assets/man_logo.png";
 import logo2 from "../assets/man_icon.png";
 import botLogo from "../assets/tongue-out.png";
+import Xicon from "../assets/xColorTic.png";
+import Oicon from "../assets/ticColor.png";
 
-const PlayerMode = ({ isBotEnabled, setIsBotEnabled, initGame, wins, gameInfo }) => {
+const PlayerMode = ({
+  isBotEnabled,
+  setIsBotEnabled,
+  initGame,
+  wins,
+  gameInfo,
+}) => {
   const handleToggle = () => {
     setIsBotEnabled((prev) => !prev);
     initGame();
   };
 
   return (
-    <div className="relative w-full max-w-5xl px-4 mb-2">
-      {/* 🟩 Top Section */}
-      <div className="flex justify-between items-center text-white w-full gap-x-4">
-        {/* 🔹 Player 1 */}
-        <div className="flex flex-col items-center gap-2">
-          <img src={logo} alt="Player 1" width={60} />
-          <span className="font-semibold text-lg">Player 1</span>
-          <span className="text-sm text-[#00f2fe]">Wins: {wins.player1}</span>
+    <div className="relative w-full max-w-5xl px-4 mb-4">
+      <div className="flex justify-between items-center w-full text-white gap-2 sm:gap-4">
+        {/* Player 1 Avatar with Conditional Circle Border */}
+        <div className="flex flex-col items-center gap-1 sm:gap-2 w-[70px] sm:w-[100px] flex-shrink-0">
+          <div
+            className={`w-14 h-14 sm:w-20 sm:h-20 rounded-full border-4 flex items-center justify-center
+      ${gameInfo.includes("X") ? "border-green-500" : "border-[#696969]"}
+      bg-white/10 shadow-inner`}
+          >
+            <img
+              src={logo}
+              alt="Player 1"
+              className="w-10 sm:w-14 rounded-full object-cover"
+            />
+          </div>
+          <span className="font-semibold text-xs sm:text-base">Player 1</span>
+          <span className="text-[10px] sm:text-sm text-[#00f2fe]">
+            Wins: {wins.player1}
+          </span>
         </div>
 
-        {/* 🟨 Game Info (center) */}
-        <div className="flex-1 flex justify-center">
-          <p className="text-sm font-medium bg-white/10 px-6 py-2 rounded-full border border-white/40 backdrop-blur-sm">
+        {/* 🟨 Game Info Styled Like Image */}
+        <div className="flex flex-col items-center justify-center w-[70px] sm:w-[100px] flex-shrink-0">
+          {/* <div className="text-red-500 text-xl sm:text-2xl">✖</div> */}
+          <img src={Xicon} alt="X" className="w-5 sm:w-7 md:w-8 h-auto object-contain"/>
+          <div
+            className={`font-bold text-base sm:text-lg md:text-xl ${
+              gameInfo.includes("X")
+                ? "text-red-600"
+                : gameInfo.includes("O")
+                ? "text-green-400"
+                : "text-white"
+            }`}
+          >
             {gameInfo}
-          </p>
+          </div>
+          {/* <div className="text-green-500 text-xl sm:text-2xl">⭕</div> */}
+          <img src={Oicon} alt="O"className="w-5 sm:w-7 md:w-8 h-auto object-contain"/>
+
         </div>
 
-        {/* 🔸 Player 2 / Bot */}
-        <div className="flex flex-col items-center gap-2">
-          <img src={isBotEnabled ? botLogo : logo2} alt="Player 2" width={60} />
-          <span className="font-semibold text-lg">{isBotEnabled ? "Bot" : "Player 2"}</span>
-          <span className="text-sm text-[#00f2fe]">Wins: {wins.player2}</span>
+        {/* Player 2 or Bot */}
+        <div className="flex flex-col items-center gap-1 sm:gap-2 w-[70px] sm:w-[100px] flex-shrink-0">
+          <div
+            className={`w-14 h-14 sm:w-20 sm:h-20 rounded-full border-4 flex items-center justify-center
+      ${gameInfo.includes("O") ? "border-green-500" : "border-[#696969]"}
+      bg-white/10 shadow-inner`}
+          >
+            <img
+              src={isBotEnabled ? botLogo : logo2}
+              alt="Player 2"
+              className="w-10 sm:w-14 rounded-full object-cover"
+            />
+          </div>
+          <span className="font-semibold text-xs sm:text-base">
+            {isBotEnabled ? "Bot" : "Player 2"}
+          </span>
+          <span className="text-[10px] sm:text-sm text-[#00f2fe]">
+            Wins: {wins.player2}
+          </span>
         </div>
       </div>
-
-      {/* 🔘 Toggle Button - Bottom Center */}
-      {/* <div className="absolute bottom-4 left-[56.4%] transform -translate-x-1/2 group">
-        <button
-          onClick={handleToggle}
-          className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/40 text-sm font-medium bg-white/10 hover:bg-white/20 text-white transition-all backdrop-blur-sm"
-        >
-          {isBotEnabled ? <FaRobot /> : <FaUserFriends />}
-          {isBotEnabled ? "Player vs Bot" : "Player vs Player"}
-        </button>
-        <span className="absolute -top-6 right-0 text-xs text-white/70 opacity-0 group-hover:opacity-100 transition">
-          Toggle Game Mode
-        </span>
-      </div> */}
     </div>
   );
 };

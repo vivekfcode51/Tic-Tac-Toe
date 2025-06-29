@@ -8,7 +8,6 @@ import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
 import Xicon from "../assets/xColorTic.png";
 import Oicon from "../assets/ticColor.png";
 
-
 // const winningPositions = [
 //   [0, 1, 2],
 //   [3, 4, 5],
@@ -20,7 +19,6 @@ import Oicon from "../assets/ticColor.png";
 //   [2, 4, 6],
 // ];
 const generateWinningPositions = (size) => {
-
   const positions = [];
 
   // Rows
@@ -57,7 +55,7 @@ const GameBoard = ({ selectedLevel }) => {
   // const [gameGrid, setGameGrid] = useState(Array(9).fill(""));
   const [gameGrid, setGameGrid] = useState(Array(totalCells).fill(""));
   const [currentPlayer, setCurrentPlayer] = useState("X");
-  const [gameInfo, setGameInfo] = useState("Turn Player - X");
+  const [gameInfo, setGameInfo] = useState("X's Turn");
   const [winner, setWinner] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [isBotEnabled, setIsBotEnabled] = useState(true);
@@ -69,7 +67,7 @@ const GameBoard = ({ selectedLevel }) => {
     // setGameGrid(Array(9).fill(""));
     setGameGrid(Array(totalCells).fill(""));
     setCurrentPlayer("X");
-    setGameInfo("Turn Player - X");
+    setGameInfo("X's Turn");
     setWinner(null);
     setShowModal(false);
   };
@@ -80,8 +78,13 @@ const GameBoard = ({ selectedLevel }) => {
     initGame();
   };
 
+  // const swapTurn = () => {
+  //   setCurrentPlayer((prev) => (prev === "X" ? "O" : "X"));
+  // };
   const swapTurn = () => {
-    setCurrentPlayer((prev) => (prev === "X" ? "O" : "X"));
+    const nextPlayer = currentPlayer === "X" ? "O" : "X";
+    setCurrentPlayer(nextPlayer);
+    setGameInfo(`${nextPlayer}'s Turn`);
   };
 
   const checkGameOver = (grid) => {
@@ -93,7 +96,7 @@ const GameBoard = ({ selectedLevel }) => {
       ) {
         const winnerPlayer = grid[position[0]];
         setWinner(winnerPlayer); // ✅ sets state
-        setGameInfo(`Winner Player - ${winnerPlayer}`);
+        setGameInfo(`Winner - ${winnerPlayer}`);
         setShowModal(true);
         playSound("win");
 
@@ -116,7 +119,7 @@ const GameBoard = ({ selectedLevel }) => {
       setShowModal(true);
       playSound("tie");
     } else {
-      setGameInfo(`Turn Player - ${currentPlayer === "X" ? "O" : "X"}`);
+      setGameInfo(`${currentPlayer === "X" ? "O" : "X"}'s Turn`);
     }
   };
 
@@ -162,7 +165,7 @@ const GameBoard = ({ selectedLevel }) => {
       : "grid-cols-3";
 
   return (
-   <div className="min-h-screen flex flex-col justify-between items-center bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] px-4 pt-6 pb-4 relative">
+    <div className="min-h-screen flex flex-col justify-between items-center bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] px-4 pt-6 pb-4 relative">
       <h1 className="bg-gradient-to-br from-[#667eea] to-[#00f2fe] bg-clip-text text-transparent font-bold text-4xl sm:text-5xl mb-6 text-center">
         TIC-TAC-TOE
       </h1>
@@ -176,27 +179,27 @@ const GameBoard = ({ selectedLevel }) => {
       />
 
       <div className={`relative w-full ${maxBoardWidth} aspect-square`}>
-      {/* Grid Lines (Optional, can be removed if using box borders) */}
-      {[...Array(gridSize - 1)].map((_, i) => (
-        <React.Fragment key={i}>
-          <div
-            className="absolute left-0 w-full border-t-4 border-white pointer-events-none"
-            style={{ top: `${((i + 1) / gridSize) * 100}%` }}
-          ></div>
-          <div
-            className="absolute top-0 h-full border-l-4 border-white pointer-events-none"
-            style={{ left: `${((i + 1) / gridSize) * 100}%` }}
-          ></div>
-        </React.Fragment>
-      ))}
+        {/* Grid Lines (Optional, can be removed if using box borders) */}
+        {[...Array(gridSize - 1)].map((_, i) => (
+          <React.Fragment key={i}>
+            <div
+              className="absolute left-0 w-full border-t-4 border-white pointer-events-none"
+              style={{ top: `${((i + 1) / gridSize) * 100}%` }}
+            ></div>
+            <div
+              className="absolute top-0 h-full border-l-4 border-white pointer-events-none"
+              style={{ left: `${((i + 1) / gridSize) * 100}%` }}
+            ></div>
+          </React.Fragment>
+        ))}
 
-      {/* Grid Boxes with border and gap */}
-      <div className={`grid w-full h-full gap-[4px] ${gridColsClass}`}>
-        {gameGrid.map((value, index) => (
-          <div
-            key={index}
-            onClick={() => handleClick(index)}
-            className={`relative cursor-pointer flex items-center justify-center 
+        {/* Grid Boxes with border and gap */}
+        <div className={`grid w-full h-full gap-[4px] ${gridColsClass}`}>
+          {gameGrid.map((value, index) => (
+            <div
+              key={index}
+              onClick={() => handleClick(index)}
+              className={`relative cursor-pointer flex items-center justify-center 
               rounded-md bg-black/20 transition duration-200
               ${
                 winner &&
@@ -208,21 +211,20 @@ const GameBoard = ({ selectedLevel }) => {
                   ? "bg-green-400/30"
                   : ""
               }`}
-          >
-            <div className="absolute inset-0 flex items-center justify-center">
-              {value && (
-                <img
-                  src={value === "X" ? Xicon : Oicon}
-                  alt={value}
-                  className="h-[65%] w-[65%] object-contain object-center z-20 animate-scaleIn"
-                />
-              )}
+            >
+              <div className="absolute inset-0 flex items-center justify-center">
+                {value && (
+                  <img
+                    src={value === "X" ? Xicon : Oicon}
+                    alt={value}
+                    className="h-[65%] w-[65%] object-contain object-center z-20 animate-scaleIn"
+                  />
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
-
 
       {/* Bottom Buttons Row */}
       <div className="w-full flex justify-between items-center mt-6 px-4 gap-4 flex-wrap">
@@ -281,26 +283,24 @@ const GameBoard = ({ selectedLevel }) => {
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/60">
-          <div className="bg-black rounded-lg shadow-lg p-8 w-[250px] flex flex-col justify-center items-center mt-10">
-            <h2 className="text-sm font-bold text-white text-center">
-              {winner === "tie"
-                ? "🤝 It's a Tie!"
-                : winner === "X"
-                ? "🎉🎊 Congratulations Player 1 (X) Wins!!"
-                : isBotEnabled
-                ? "🤖🎉 Congratulations Bot Wins!"
-                : "🎉🎊 Congratulations Player 2 (O) Wins!!"}
+          <div className="bg-black rounded-lg shadow-lg px-6 py-6 w-[280px] sm:w-[320px] flex flex-col gap-4 mt-10">
+            {/* Message */}
+            <h2 className="text-sm font-bold text-start text-transparent bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text">
+              <span className="text-white">🎉</span> Congratulation you wins!
             </h2>
 
-            <button
-              onClick={() => {
-                setShowModal(false);
-                initGame();
-              }}
-              className="mt-4 px-4 py-2 text-sm font-semibold text-white hover:text-blue-500"
-            >
-              Play Again
-            </button>
+            {/* Play Again Button aligned to right */}
+            <div className="flex justify-end">
+              <button
+                onClick={() => {
+                  setShowModal(false);
+                  initGame();
+                }}
+                className="px-4 py-2 text-sm font-semibold text-white hover:text-blue-500"
+              >
+                Play Again
+              </button>
+            </div>
           </div>
         </div>
       )}
