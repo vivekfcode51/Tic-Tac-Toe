@@ -48,7 +48,7 @@ const generateWinningPositions = (size) => {
   return positions;
 };
 
-const GameBoard = ({ selectedLevel }) => {
+const GameBoard = ({ selectedLevel, setSelectedLevel }) => {
   const gridSize =
     selectedLevel === "hard" ? 5 : selectedLevel === "medium" ? 4 : 3;
   const totalCells = gridSize * gridSize;
@@ -77,6 +77,8 @@ const GameBoard = ({ selectedLevel }) => {
     setPlayer1Wins(0);
     setPlayer2Wins(0);
     initGame();
+    // Back to level selection
+    setSelectedLevel(null);
   };
 
   // const swapTurn = () => {
@@ -172,7 +174,7 @@ const GameBoard = ({ selectedLevel }) => {
       : "grid-cols-3";
 
   return (
-    <div className="min-h-screen max-h-screen flex flex-col items-center px-4 pt-4 pb-2">
+    <div className="min-h-screen flex flex-col items-center px-4 pt-4 pb-32 overflow-y-auto">
       <h1 className="bg-gradient-to-r from-[#E040FB] to-[#18FFFF] bg-clip-text text-transparent font-bold text-4xl sm:text-5xl mb-6 text-center">
         TIC-TAC-TOE
       </h1>
