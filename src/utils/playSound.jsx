@@ -1,7 +1,8 @@
 // src/utils/playSound.js
-// import winSound from "../assets/sound/win.mp3";
-// import tieSound from "../assets/sound/tie.mp3";
 import moveSound from "../assets/sounds/tic.mp3";
+import winSound from "../assets/sounds/win.mp3"
+import tieSound from "../assets/sounds/game-over.mp3";
+
 
 export const playSound = (type, isSoundOn = true) => {
 

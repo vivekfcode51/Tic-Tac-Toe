@@ -105,7 +105,7 @@ const GameBoard = ({ selectedLevel }) => {
         if (winnerPlayer === "X") {
           console.log("Player 1 wins");
           setPlayer1Wins((prev) => prev + 1);
-        } else if (winnerPlayer === "O") {setWinner
+        } else if (winnerPlayer === "O") {
           console.log("Player 2 wins");
           setPlayer2Wins((prev) => prev + 1);
         }
@@ -137,20 +137,26 @@ const GameBoard = ({ selectedLevel }) => {
   };
 
   useEffect(() => {
-    if (isBotEnabled && currentPlayer === "O" && !winner) {
+    if (
+      isBotEnabled &&
+      currentPlayer === "O" &&
+      !winner &&
+      gameGrid.some((cell) => cell === "")
+    ) {
       const available = gameGrid
         .map((val, i) => (val === "" ? i : null))
         .filter((val) => val !== null);
 
-      if (available.length > 0) {
-        const randomIndex =
-          available[Math.floor(Math.random() * available.length)];
-        setTimeout(() => {
-          handleClick(randomIndex);
-        }, 500);
-      }
+      const randomIndex =
+        available[Math.floor(Math.random() * available.length)];
+
+      const timeout = setTimeout(() => {
+        handleClick(randomIndex);
+      }, 500);
+
+      return () => clearTimeout(timeout);
     }
-  }, [currentPlayer, isBotEnabled, winner]);
+  }, [currentPlayer, isBotEnabled, winner, gameGrid]);
 
   const maxBoardWidth =
     gridSize === 5
@@ -170,7 +176,6 @@ const GameBoard = ({ selectedLevel }) => {
       <h1 className="bg-gradient-to-r from-[#E040FB] to-[#18FFFF] bg-clip-text text-transparent font-bold text-4xl sm:text-5xl mb-6 text-center">
         TIC-TAC-TOE
       </h1>
-
       <PlayerMode
         isBotEnabled={isBotEnabled}
         setIsBotEnabled={setIsBotEnabled}
@@ -178,7 +183,6 @@ const GameBoard = ({ selectedLevel }) => {
         wins={{ player1: player1Wins, player2: player2Wins }}
         gameInfo={gameInfo}
       />
-
       <div className={`relative w-full ${maxBoardWidth} aspect-square`}>
         {/* Grid Lines (Optional, can be removed if using box borders) */}
         {/* {[...Array(gridSize - 1)].map((_, i) => (
@@ -226,7 +230,6 @@ const GameBoard = ({ selectedLevel }) => {
           ))}
         </div>
       </div>
-
       {/* Bottom Buttons Row */}
       <div className="w-full px-4 mt-4 flex flex-col gap-3">
         {/* Top Row: Left and Right Aligned Toggles */}
@@ -253,7 +256,10 @@ const GameBoard = ({ selectedLevel }) => {
           {/* Bot Toggle - Right Aligned */}
           <div className="flex flex-col items-end gap-1">
             <div className="flex items-center gap-2">
-              <span className="text-xs text-white font-semibold"> Player vs Bot</span>
+              <span className="text-xs text-white font-semibold">
+                {" "}
+                Player vs Bot
+              </span>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
                   type="checkbox"
@@ -278,19 +284,46 @@ const GameBoard = ({ selectedLevel }) => {
             className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-[#18FFFF]
             text-black transition-all backdrop-blur-sm"
           >
-            <BiRefresh className="text-sm font-semibold"/>
+            <BiRefresh className="text-sm font-semibold" />
             Clear Scoreboard
           </button>
         </div>
       </div>
-
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/60">
           <div className="bg-black rounded-lg shadow-lg px-6 py-6 w-[280px] sm:w-[320px] flex flex-col gap-4 mt-10">
             {/* Message */}
-            <h2 className="text-sm font-bold text-start text-transparent bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text">
-              <span className="text-white">🎉</span> Congratulation you wins!
+            <h2 className="text-sm font-bold text-start">
+              {winner === "tie" ? (
+                <>
+                  <span className="mr-1">🤝</span>
+                  <span className="text-transparent bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text">
+                    It's a Tie!
+                  </span>
+                </>
+              ) : winner === "X" ? (
+                <>
+                  <span className="mr-1">🎉</span>
+                  <span className="text-transparent bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text">
+                    Congratulation Player 1 (X) Wins!
+                  </span>
+                </>
+              ) : isBotEnabled ? (
+                <>
+                  <span className="mr-1">🤖</span>
+                  <span className="text-transparent bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text">
+                    Congratulation Bot Wins!
+                  </span>
+                </>
+              ) : (
+                <>
+                  <span className="mr-1">🎉</span>
+                  <span className="text-transparent bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text">
+                    Congratulation Player 2 (O) Wins!
+                  </span>
+                </>
+              )}
             </h2>
 
             {/* Play Again Button aligned to right */}
