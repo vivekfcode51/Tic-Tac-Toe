@@ -8,7 +8,7 @@ function App() {
 
   return (
     <div
-      className="w-screen min-h-screen flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat bg-black"
+      className="w-screen overflow-y-auto min-h-screen flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat bg-black"
       // style={{ backgroundImage: `url(${bgImage})` }}
     >
       {!selectedLevel ? (

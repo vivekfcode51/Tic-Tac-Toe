@@ -7,6 +7,7 @@ import { MdDelete } from "react-icons/md";
 import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
 import Xicon from "../assets/xColorTic.png";
 import Oicon from "../assets/ticColor.png";
+import { BiRefresh } from "react-icons/bi";
 
 // const winningPositions = [
 //   [0, 1, 2],
@@ -104,7 +105,7 @@ const GameBoard = ({ selectedLevel }) => {
         if (winnerPlayer === "X") {
           console.log("Player 1 wins");
           setPlayer1Wins((prev) => prev + 1);
-        } else if (winnerPlayer === "O") {
+        } else if (winnerPlayer === "O") {setWinner
           console.log("Player 2 wins");
           setPlayer2Wins((prev) => prev + 1);
         }
@@ -165,8 +166,8 @@ const GameBoard = ({ selectedLevel }) => {
       : "grid-cols-3";
 
   return (
-    <div className="min-h-screen max-h-screen overflow-y-auto flex flex-col items-center bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] px-4 pt-4 pb-2">
-      <h1 className="bg-gradient-to-br from-[#667eea] to-[#00f2fe] bg-clip-text text-transparent font-bold text-4xl sm:text-5xl mb-6 text-center">
+    <div className="min-h-screen max-h-screen flex flex-col items-center px-4 pt-4 pb-2">
+      <h1 className="bg-gradient-to-r from-[#E040FB] to-[#18FFFF] bg-clip-text text-transparent font-bold text-4xl sm:text-5xl mb-6 text-center">
         TIC-TAC-TOE
       </h1>
 
@@ -180,7 +181,7 @@ const GameBoard = ({ selectedLevel }) => {
 
       <div className={`relative w-full ${maxBoardWidth} aspect-square`}>
         {/* Grid Lines (Optional, can be removed if using box borders) */}
-        {[...Array(gridSize - 1)].map((_, i) => (
+        {/* {[...Array(gridSize - 1)].map((_, i) => (
           <React.Fragment key={i}>
             <div
               className="absolute left-0 w-full border-t-4 border-white pointer-events-none"
@@ -191,16 +192,16 @@ const GameBoard = ({ selectedLevel }) => {
               style={{ left: `${((i + 1) / gridSize) * 100}%` }}
             ></div>
           </React.Fragment>
-        ))}
+        ))} */}
 
         {/* Grid Boxes with border and gap */}
-        <div className={`grid w-full h-full gap-[4px] ${gridColsClass}`}>
+        <div className={`grid w-full h-full gap-[6px] ${gridColsClass}`}>
           {gameGrid.map((value, index) => (
             <div
               key={index}
               onClick={() => handleClick(index)}
-              className={`relative cursor-pointer flex items-center justify-center 
-              rounded-md bg-black/20 transition duration-200
+              className={`relative cursor-pointer flex items-center justify-center
+               border-4 border-cyan-400 rounded-xl transition duration-200
               ${
                 winner &&
                 winningPositions.some(
@@ -271,14 +272,14 @@ const GameBoard = ({ selectedLevel }) => {
         </div>
 
         {/* Bottom Row: Clear Score Button - Centered */}
-        <div className="w-full flex justify-center">
+        <div className="w-full flex justify-center pb-2">
           <button
             onClick={clearScore}
-            className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/40 text-sm font-medium bg-white/10
-        hover:bg-white/20 text-white transition-all backdrop-blur-sm hover:text-[#00f2fe]"
+            className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-[#18FFFF]
+            text-black transition-all backdrop-blur-sm"
           >
-            <MdDelete className="text-sm font-semibold" />
-            Clear Score
+            <BiRefresh className="text-sm font-semibold"/>
+            Clear Scoreboard
           </button>
         </div>
       </div>
